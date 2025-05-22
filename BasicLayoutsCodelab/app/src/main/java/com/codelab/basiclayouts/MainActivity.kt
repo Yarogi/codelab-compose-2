@@ -21,7 +21,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,15 +41,21 @@ class MainActivity : ComponentActivity() {
 // Step: Search bar - Modifiers
 @Composable
 fun SearchBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    // Implement composable here
+    TextField(
+        value = "",
+        onValueChange = {},
+        modifier = modifier
+            .fillMaxWidth()
+            .heightIn(min = 56.dp)
+    )
 }
 
 // Step: Align your body - Alignment
 @Composable
 fun AlignYourBodyElement(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     // Implement composable here
 }
@@ -54,7 +63,7 @@ fun AlignYourBodyElement(
 // Step: Favorite collection card - Material Surface
 @Composable
 fun FavoriteCollectionCard(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     // Implement composable here
 }
@@ -62,7 +71,7 @@ fun FavoriteCollectionCard(
 // Step: Align your body row - Arrangements
 @Composable
 fun AlignYourBodyRow(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     // Implement composable here
 }
@@ -70,7 +79,7 @@ fun AlignYourBodyRow(
 // Step: Favorite collections grid - LazyGrid
 @Composable
 fun FavoriteCollectionsGrid(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     // Implement composable here
 }
@@ -78,7 +87,7 @@ fun FavoriteCollectionsGrid(
 // Step: Home section - Slot APIs
 @Composable
 fun HomeSection(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     // Implement composable here
 }
@@ -109,7 +118,7 @@ private fun SootheNavigationRail(modifier: Modifier = Modifier) {
 
 // Step: Landscape Mode
 @Composable
-fun MySootheAppLandscape(){
+fun MySootheAppLandscape() {
     // Implement composable here
 }
 
@@ -139,7 +148,7 @@ private val favoriteCollectionsData = listOf(
 
 private data class DrawableStringPair(
     @DrawableRes val drawable: Int,
-    @StringRes val text: Int
+    @StringRes val text: Int,
 )
 
 @Preview(showBackground = true, backgroundColor = 0xFFF5F0EE)
