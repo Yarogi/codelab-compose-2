@@ -20,21 +20,29 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.google.samples.apps.sunflower.R
+import com.google.samples.apps.sunflower.data.Plant
 import com.google.samples.apps.sunflower.utilities.SmallDevicePreview
 import com.google.samples.apps.sunflower.viewmodels.PlantDetailViewModel
 
 @Composable
 fun PlantDetailDescription(plantDetailsViewModel: PlantDetailViewModel) {
-    Surface {
-        Text("Hello Compose")
-    }
+    // Observes values coming from the VM's LiveData<Plant> field
+    val plant by plantDetailsViewModel.plant.observeAsState()
+    // If plant is not null, display the content
+    plant?.let { PlantContent(it) }
+}
+
+@Composable
+private fun PlantContent(plant: Plant, modifier: Modifier = Modifier) {
+    PlantName(plant.name)
 }
 
 @Composable
