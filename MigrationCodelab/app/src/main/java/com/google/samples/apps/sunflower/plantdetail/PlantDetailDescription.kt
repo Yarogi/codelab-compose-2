@@ -16,23 +16,41 @@
 
 package com.google.samples.apps.sunflower.plantdetail
 
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import com.google.samples.apps.sunflower.R
+import com.google.samples.apps.sunflower.utilities.SmallDevicePreview
+import com.google.samples.apps.sunflower.viewmodels.PlantDetailViewModel
 
 @Composable
-fun PlantDetailDescription() {
+fun PlantDetailDescription(plantDetailsViewModel: PlantDetailViewModel) {
     Surface {
         Text("Hello Compose")
     }
 }
 
-@Preview(showBackground = true, widthDp = 320)
 @Composable
-private fun PlantDetailDescriptionPreview() {
+private fun PlantName(name: String, modifier: Modifier = Modifier) {
+    Text(
+        text = name, modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = dimensionResource(R.dimen.margin_small))
+            .wrapContentWidth(align = Alignment.CenterHorizontally)
+    )
+}
+
+@SmallDevicePreview
+@Composable
+private fun PlantNamePreview() {
     MaterialTheme {
-        PlantDetailDescription()
+        PlantName(name = "Apple")
     }
 }
