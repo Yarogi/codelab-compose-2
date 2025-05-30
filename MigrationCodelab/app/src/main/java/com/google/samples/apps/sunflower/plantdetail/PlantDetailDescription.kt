@@ -16,13 +16,23 @@
 
 package com.google.samples.apps.sunflower.plantdetail
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun PlantDetailDescription() {
     Surface {
         Text("Hello Compose")
+    }
+}
+
+@Preview(showBackground = true, widthDp = 320)
+@Composable
+private fun PlantDetailDescriptionPreview() {
+    MaterialTheme {
+        PlantDetailDescription()
     }
 }
