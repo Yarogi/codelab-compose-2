@@ -30,6 +30,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeFloatingActionButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,7 +49,7 @@ fun ReplyInboxScreen(
     replyHomeUIState: ReplyHomeUIState,
     closeDetailScreen: () -> Unit,
     navigateToDetail: (Long) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
 
     val emailLazyListState = rememberLazyListState()
@@ -63,6 +64,8 @@ fun ReplyInboxScreen(
         )
 
         LargeFloatingActionButton(
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+            contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
             onClick = { /*Click Implementation*/ },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
@@ -84,7 +87,7 @@ fun ReplyEmailListContent(
     emailLazyListState: LazyListState,
     modifier: Modifier = Modifier,
     closeDetailScreen: () -> Unit,
-    navigateToDetail: (Long) -> Unit
+    navigateToDetail: (Long) -> Unit,
 ) {
     if (replyHomeUIState.selectedEmail != null && replyHomeUIState.isDetailOnlyOpen) {
         BackHandler {
@@ -109,7 +112,7 @@ fun ReplyEmailList(
     emailLazyListState: LazyListState,
     selectedEmail: Email? = null,
     modifier: Modifier = Modifier,
-    navigateToDetail: (Long) -> Unit
+    navigateToDetail: (Long) -> Unit,
 ) {
     LazyColumn(modifier = modifier, state = emailLazyListState) {
         item {
@@ -131,7 +134,7 @@ fun ReplyEmailDetail(
     email: Email,
     isFullScreen: Boolean = true,
     modifier: Modifier = Modifier.fillMaxSize(),
-    onBackPressed: () -> Unit = {}
+    onBackPressed: () -> Unit = {},
 ) {
     LazyColumn(
         modifier = modifier
