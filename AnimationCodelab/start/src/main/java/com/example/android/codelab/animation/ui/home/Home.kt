@@ -17,23 +17,7 @@
 package com.example.android.codelab.animation.ui.home
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColor
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateDp
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.keyframes
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.updateTransition
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -44,16 +28,12 @@ import androidx.compose.foundation.gestures.horizontalDrag
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.WindowInsetsSides.Companion.Horizontal
-import androidx.compose.foundation.layout.WindowInsetsSides.Companion.Top
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -63,7 +43,6 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.windowInsetsTopHeight
@@ -95,7 +74,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -189,7 +167,10 @@ fun Home() {
 
     // The background color. The value is changed by the current tab.
     // TODO 1: Animate this color change.
-    val backgroundColor = if (tabPage == TabPage.Home) Seashell else GreenLight
+    val backgroundColor by animateColorAsState(
+        targetValue = if (tabPage == TabPage.Home) Seashell else GreenLight,
+        label = "background color"
+    )
 
     // The coroutine scope for event handlers calling suspend functions.
     val coroutineScope = rememberCoroutineScope()
@@ -213,15 +194,17 @@ fun Home() {
             )
         }
     ) { padding ->
-        Box(modifier = Modifier.padding(
-            top = padding.calculateTopPadding(),
-            start = padding.calculateLeftPadding(LayoutDirection.Ltr),
-            end = padding.calculateEndPadding(LayoutDirection.Ltr)
-        )) {
+        Box(
+            modifier = Modifier.padding(
+                top = padding.calculateTopPadding(),
+                start = padding.calculateLeftPadding(LayoutDirection.Ltr),
+                end = padding.calculateEndPadding(LayoutDirection.Ltr)
+            )
+        ) {
             LazyColumn(
                 contentPadding = WindowInsets(
                     16.dp,
-                     32.dp,
+                    32.dp,
                     16.dp,
                     padding.calculateBottomPadding() + 32.dp
                 ).asPaddingValues(),
@@ -293,7 +276,7 @@ fun Home() {
 @Composable
 private fun HomeFloatingActionButton(
     extended: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     // Use `FloatingActionButton` rather than `ExtendedFloatingActionButton` for full control on
     // how it should animate.
@@ -369,7 +352,7 @@ private fun LazyListState.isScrollingUp(): Boolean {
  */
 @Composable
 private fun Header(
-    title: String
+    title: String,
 ) {
     Text(
         text = title,
@@ -444,7 +427,7 @@ fun TopicRowSpacer(visible: Boolean) {
 private fun HomeTabBar(
     backgroundColor: Color,
     tabPage: TabPage,
-    onTabSelected: (tabPage: TabPage) -> Unit
+    onTabSelected: (tabPage: TabPage) -> Unit,
 ) {
     Column(modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing.only(Horizontal))) {
         Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
@@ -455,7 +438,7 @@ private fun HomeTabBar(
             indicator = { tabPositions ->
                 HomeTabIndicator(tabPositions, tabPage)
             }
-        ){
+        ) {
             HomeTab(
                 icon = Icons.Default.Home,
                 title = stringResource(R.string.home),
@@ -479,7 +462,7 @@ private fun HomeTabBar(
 @Composable
 private fun HomeTabIndicator(
     tabPositions: List<TabPosition>,
-    tabPage: TabPage
+    tabPage: TabPage,
 ) {
     // TODO 4: Animate these value changes.
     val indicatorLeft = tabPositions[tabPage.ordinal].left
@@ -513,7 +496,7 @@ private fun HomeTab(
     icon: ImageVector,
     title: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
@@ -538,7 +521,7 @@ private fun HomeTab(
  */
 @Composable
 private fun WeatherRow(
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -631,7 +614,7 @@ private fun TaskRow(task: String, onRemove: () -> Unit) {
  * @param onDismissed Called when the element is swiped to the edge of the screen.
  */
 private fun Modifier.swipeToDismiss(
-    onDismissed: () -> Unit
+    onDismissed: () -> Unit,
 ): Modifier = composed {
     // TODO 6-1: Create an Animatable instance for the offset of the swiped element.
     pointerInput(Unit) {
