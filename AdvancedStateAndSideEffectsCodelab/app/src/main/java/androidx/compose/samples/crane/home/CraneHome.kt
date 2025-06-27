@@ -36,6 +36,7 @@ import androidx.compose.samples.crane.base.ExploreSection
 import androidx.compose.samples.crane.data.ExploreModel
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 typealias OnExploreItemClicked = (ExploreModel) -> Unit
@@ -77,7 +78,8 @@ fun CraneHomeContent(
     viewModel: MainViewModel = viewModel(),
 ) {
     // TODO Codelab: collectAsStateWithLifecycle step - consume stream of data from the ViewModel
-    val suggestedDestinations: List<ExploreModel> = remember { emptyList() }
+    //val suggestedDestinations: List<ExploreModel> = remember { emptyList() }
+    val suggestedDestinations: List<ExploreModel> by viewModel.suggestedDestinations.collectAsStateWithLifecycle()
 
     val onPeopleChanged: (Int) -> Unit = { viewModel.updatePeople(it) }
     var tabSelected by remember { mutableStateOf(CraneScreen.Fly) }
@@ -105,6 +107,7 @@ fun CraneHomeContent(
                         onItemClicked = onExploreItemClicked
                     )
                 }
+
                 CraneScreen.Sleep -> {
                     ExploreSection(
                         title = "Explore Properties by Destination",
@@ -112,6 +115,7 @@ fun CraneHomeContent(
                         onItemClicked = onExploreItemClicked
                     )
                 }
+
                 CraneScreen.Eat -> {
                     ExploreSection(
                         title = "Explore Restaurants by Destination",
@@ -129,7 +133,7 @@ private fun HomeTabBar(
     openDrawer: () -> Unit,
     tabSelected: CraneScreen,
     onTabSelected: (CraneScreen) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     CraneTabBar(
         modifier = modifier,
@@ -148,16 +152,18 @@ private fun HomeTabBar(
 private fun SearchContent(
     tabSelected: CraneScreen,
     viewModel: MainViewModel,
-    onPeopleChanged: (Int) -> Unit
+    onPeopleChanged: (Int) -> Unit,
 ) {
     when (tabSelected) {
         CraneScreen.Fly -> FlySearchContent(
             onPeopleChanged = onPeopleChanged,
             onToDestinationChanged = { viewModel.toDestinationChanged(it) }
         )
+
         CraneScreen.Sleep -> SleepSearchContent(
             onPeopleChanged = onPeopleChanged
         )
+
         CraneScreen.Eat -> EatSearchContent(
             onPeopleChanged = onPeopleChanged
         )
