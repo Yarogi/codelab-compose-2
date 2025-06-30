@@ -32,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.samples.crane.R
 import androidx.compose.samples.crane.base.CraneEditableUserInput
 import androidx.compose.samples.crane.base.CraneUserInput
+import androidx.compose.samples.crane.base.rememberEditableUserState
 import androidx.compose.samples.crane.home.PeopleUserInputAnimationState.Invalid
 import androidx.compose.samples.crane.home.PeopleUserInputAnimationState.Valid
 import androidx.compose.samples.crane.ui.CraneTheme
@@ -65,7 +66,7 @@ class PeopleUserInputState {
 fun PeopleUserInput(
     titleSuffix: String? = "",
     onPeopleChanged: (Int) -> Unit,
-    peopleState: PeopleUserInputState = remember { PeopleUserInputState() }
+    peopleState: PeopleUserInputState = remember { PeopleUserInputState() },
 ) {
     Column {
         val transitionState = remember { peopleState.animationState }
@@ -97,11 +98,11 @@ fun FromDestination() {
 
 @Composable
 fun ToDestinationUserInput(onToDestinationChanged: (String) -> Unit) {
+    val editableUserInputState = rememberEditableUserState(hint = "Choose Destination")
     CraneEditableUserInput(
-        hint = "Choose Destination",
+        state = editableUserInputState,
         caption = "To",
-        vectorImageId = R.drawable.ic_plane,
-        onInputChanged = onToDestinationChanged
+        vectorImageId = R.drawable.ic_plane
     )
 }
 
@@ -116,7 +117,7 @@ fun DatesUserInput() {
 
 @Composable
 private fun tintPeopleUserInput(
-    transitionState: MutableTransitionState<PeopleUserInputAnimationState>
+    transitionState: MutableTransitionState<PeopleUserInputAnimationState>,
 ): State<Color> {
     val validColor = MaterialTheme.colors.onSurface
     val invalidColor = MaterialTheme.colors.secondary
