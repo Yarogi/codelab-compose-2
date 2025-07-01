@@ -100,7 +100,7 @@ class DetailsActivity : ComponentActivity() {
 fun DetailsScreen(
     onErrorLoading: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: DetailsViewModel = viewModel()
+    viewModel: DetailsViewModel = viewModel(),
 ) {
     // TODO Codelab: produceState step - Show loading screen while fetching city details
     val cityDetails = remember(viewModel) { viewModel.cityDetails }
@@ -111,10 +111,16 @@ fun DetailsScreen(
     }
 }
 
+data class DetailsUiState(
+    val cityDetails: ExploreModel? = null,
+    val isLoading: Boolean = false,
+    val throwError: Boolean = false,
+)
+
 @Composable
 fun DetailsContent(
     exploreModel: ExploreModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier, verticalArrangement = Arrangement.Center) {
         Spacer(Modifier.height(32.dp))
@@ -149,7 +155,7 @@ private fun CityMapView(latitude: String, longitude: String) {
 private fun MapViewContainer(
     map: MapView,
     latitude: String,
-    longitude: String
+    longitude: String,
 ) {
     val cameraPosition = remember(latitude, longitude) {
         LatLng(latitude.toDouble(), longitude.toDouble())
@@ -183,7 +189,7 @@ private fun MapViewContainer(
 @Composable
 private fun ZoomControls(
     zoom: Float,
-    onZoomChanged: (Float) -> Unit
+    onZoomChanged: (Float) -> Unit,
 ) {
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
         ZoomButton("-", onClick = { onZoomChanged(zoom * 0.8f) })
