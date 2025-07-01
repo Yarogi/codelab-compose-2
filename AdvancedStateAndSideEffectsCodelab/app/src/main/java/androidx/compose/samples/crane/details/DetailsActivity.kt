@@ -23,15 +23,18 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -112,13 +115,26 @@ fun DetailsScreen(
         } else {
             DetailsUiState(throwError = true)
         }
+
     }
-//    val cityDetails = remember(viewModel) { viewModel.cityDetails }
-//    if (cityDetails is Result.Success<ExploreModel>) {
-//        DetailsContent(cityDetails.data, modifier.fillMaxSize())
-//    } else {
-//        onErrorLoading()
-//    }
+    when {
+        uiState.cityDetails != null -> {
+            DetailsContent(uiState.cityDetails!!, modifier.fillMaxSize())
+        }
+
+        uiState.isLoading -> {
+            Box(modifier.fillMaxSize()) {
+                CircularProgressIndicator(
+                    color = MaterialTheme.colors.onSurface,
+                    modifier = Modifier.align(alignment = Alignment.Center)
+                )
+            }
+        }
+
+        else -> {
+            onErrorLoading()
+        }
+    }
 }
 
 data class DetailsUiState(
