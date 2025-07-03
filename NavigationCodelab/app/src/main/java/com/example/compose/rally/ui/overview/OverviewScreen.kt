@@ -38,8 +38,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,6 +59,7 @@ import com.example.compose.rally.ui.components.RallyAlertDialog
 import com.example.compose.rally.ui.components.RallyDivider
 import com.example.compose.rally.ui.components.formatAmount
 import java.util.Locale
+import kotlin.random.Random
 
 @Composable
 fun OverviewScreen(
@@ -64,12 +67,14 @@ fun OverviewScreen(
     onClickSeeAllBills: () -> Unit = {},
     onAccountClick: (String) -> Unit = {},
 ) {
+    val number by rememberSaveable { mutableIntStateOf(Random.nextInt()) }
     Column(
         modifier = Modifier
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
             .semantics { contentDescription = "Overview Screen" }
     ) {
+        Text(number.toString())
         AlertCard()
         Spacer(Modifier.height(RallyDefaultPadding))
         AccountsCard(
@@ -178,7 +183,7 @@ private fun <T> OverviewScreenCard(
     values: (T) -> Float,
     colors: (T) -> Color,
     data: List<T>,
-    row: @Composable (T) -> Unit
+    row: @Composable (T) -> Unit,
 ) {
     Card {
         Column {
@@ -207,7 +212,7 @@ private fun <T> OverviewScreenCard(
 private fun <T> OverViewDivider(
     data: List<T>,
     values: (T) -> Float,
-    colors: (T) -> Color
+    colors: (T) -> Color,
 ) {
     Row(Modifier.fillMaxWidth()) {
         data.forEach { item: T ->
